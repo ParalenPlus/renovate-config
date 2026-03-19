@@ -1,0 +1,78 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Sdílená Renovate konfigurace pro ParalenPlus projekty",
+  "extends": [
+    "config:base",
+    "schedule:monthly",
+    ":semanticCommits"
+  ],
+  "labels": ["dependencies"],
+  "timezone": "Europe/Prague",
+  "schedule": ["before 9am on the first day of the month"],
+  "prConcurrentLimit": 5,
+  "packageRules": [
+    {
+      "description": "Patch a minor updaty — automatický merge",
+      "matchUpdateTypes": ["patch", "minor"],
+      "matchPackagePatterns": ["*"],
+      "automerge": true,
+      "automergeType": "pr",
+      "groupName": "minor-and-patch",
+      "groupSlug": "minor-patch-updates"
+    },
+    {
+      "description": "Major updaty frameworků — samostatný PR, ruční review",
+      "matchUpdateTypes": ["major"],
+      "matchPackagePatterns": [
+        "astro", "@astrojs/*",
+        "payload", "@payloadcms/*",
+        "next", "react", "react-dom",
+        "stripe", "@stripe/*",
+        "drizzle-orm", "drizzle-kit"
+      ],
+      "automerge": false,
+      "groupName": "major-framework-updates",
+      "labels": ["dependencies", "breaking-change"],
+      "prPriority": 10
+    },
+    {
+      "description": "Cloudflare tooling — samostatná skupina",
+      "matchPackagePatterns": [
+        "wrangler", "@cloudflare/*", "@opennextjs/cloudflare"
+      ],
+      "groupName": "cloudflare-tooling",
+      "automerge": false
+    },
+    {
+      "description": "Astro integrace dohromady",
+      "matchPackagePatterns": ["@astrojs/*"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "astro-integrations"
+    },
+    {
+      "description": "Payload pluginy dohromady",
+      "matchPackagePatterns": ["@payloadcms/*"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "payload-plugins"
+    },
+    {
+      "description": "Dev dependencies — nízká priorita, auto-merge",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackagePatterns": ["@types/*", "typescript", "eslint*", "prettier*"],
+      "groupName": "dev-tooling",
+      "prPriority": -5,
+      "automerge": true
+    },
+    {
+      "description": "Tailwind a styling",
+      "matchPackagePatterns": ["tailwindcss", "@tailwindcss/*", "postcss*", "autoprefixer"],
+      "groupName": "styling",
+      "automerge": true
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"],
+    "schedule": ["at any time"]
+  }
+}
