@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(winget install:*)",
+      "Bash(powershell -Command \"Get-ChildItem -Path ''C:\\\\Program Files'',''C:\\\\Users\\\\Adam Frojda\\\\AppData'' -Recurse -Filter ''gh.exe'' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName\")"
+    ]
+  }
+}
