@@ -1,0 +1,2 @@
+# Claude Code local settings (per-machine, contains user paths)
+.claude/settings.local.json
